@@ -37,6 +37,7 @@ converter.target_spec.supported_ops = [tf.lite.OpsSet.TFLITE_BUILTINS_INT8]
 converter.inference_input_type = tf.uint8
 converter.inference_output_type = tf.uint8
 converter.representative_dataset = representative_dataset_gen
+converter.experimental_new_converter=False
 tflite_model = converter.convert()
 
 open(sys.argv[2], "wb").write(tflite_model)
