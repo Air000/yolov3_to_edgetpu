@@ -33,7 +33,7 @@ To run on Edge TPU, we need to convert the Keras model to TF-Lite and apply post
 
 **Important note:** The Edge TPU does not support the Leaky ReLU function, so it should be replaced by the regular ReLU. (https://coral.ai/docs/edgetpu/models-intro/#supported-operations) 
 
-    python yolov3_to_edgetpu.py tiny-yolo-cfg.cfg darknet-weights.weights output-filename.tflite
+    python yolov3_to_tflite.py tiny-yolo-cfg.cfg darknet-weights.weights output-filename.tflite
     
     
 **Note**: The quantization of the `RESIZE_NEAREST_NEIGHBOR (version 2)` op is only supported in Tensorflow 2.0 nightly packages as of now, so you need use that version for thconversion. 
