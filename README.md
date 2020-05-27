@@ -1,12 +1,14 @@
 # Edge TPU - Tiny YOLO v3
 
+![Demo](images/output.gif)
+
 This repository contains the instructions and scripts to run the Tiny YOLO-v3 on Google's Edge TPU USB Accelerator. Edge TPU can only run full quantized TF-Lite models. If you already have a converted model, simply run `inference.py` with `--quant` and `--edge_tpu` to test it.
 
     usage: Run TF-Lite YOLO-V3 Tiny inference. [-h] --model MODEL --anchors
                                            ANCHORS --classes CLASSES
                                            [-t THRESHOLD] [--edge_tpu]
                                            [--quant] [--cam] [--image IMAGE]
-                                           [--video VIDEO]
+                                           [--video VIDEO] [--output OUTPUT_FILE]
 
     optional arguments:
       -h, --help            show this help message and exit
@@ -20,6 +22,7 @@ This repository contains the instructions and scripts to run the Tiny YOLO-v3 on
       --cam                 Run inference on webcam.
       --image IMAGE         Run inference on image.
       --video VIDEO         Run inference on video.
+      --output OUTPUT_FILE  inference output file, video only.
 
 **Note**: The inference code should be run on Tensorflow 1.15.0, even though the conversion below requires TF 2.0 nightly packages. I recommend using separate anaconda environments for inference and conversion.
 
@@ -59,4 +62,9 @@ If everything is correct you should get a log with every op mapped to Edge TPU:
     QUANTIZE                       4          Mapped to Edge TPU
     CONV_2D                        13         Mapped to Edge TPU
 
-This model can be run on Edge TPU with `inference.py` script.
+You can use visualize tool in tensorflow lite to inspect .tflite structure (images/visualized_model.html)
+![image](images/visualized.png)
+ 
+This model can be run on Edge TPU with `inference.py` script. Here use a bash script for inference, modify the script for your own test.
+
+    `bash run_inference.sh`

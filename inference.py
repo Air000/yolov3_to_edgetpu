@@ -25,6 +25,7 @@ parser.add_argument("--cam", help="Run inference on webcam.",
         action="store_true")
 parser.add_argument("--image", help="Run inference on image.")
 parser.add_argument("--video", help="Run inference on video.")
+parser.add_argument("--output", help="inference output video. (video only)")
 args = parser.parse_args()
 
 def make_interpreter(model_path, edge_tpu=False):
@@ -162,8 +163,15 @@ def webcam_inf(interpreter, anchors, classes, threshold=0.25):
 
     cap.release()
 
-def video_inf(interpreter, anchors, classes, path, threshold=0.25):
+def video_inf(interpreter, anchors, classes, path, output_path, threshold=0.25):
     cap = cv2.VideoCapture(path)
+
+    width  = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))  
+    height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT)) 
+    fps = cap.get(cv2.CAP_PROP_FPS)
+
+    fourcc = cv2.VideoWriter_fourcc(*'XVID')
+    outfile = cv2.VideoWriter(output_path, fourcc, fps, (width,height))
 
     input_details, output_details, input_shape = \
             get_interpreter_details(interpreter)
@@ -189,12 +197,14 @@ def video_inf(interpreter, anchors, classes, path, threshold=0.25):
         cv2.putText(frame, f"FPS: {fps:.1f}", (20, 20), cv2.FONT_HERSHEY_DUPLEX,
                 0.45, (200, 0, 200), 1, cv2.LINE_AA)
 
+        outfile.write(frame)
         cv2.imshow("Image", frame)
         k = cv2.waitKey(1) & 0xFF
         if k == ord('q'):
             break
 
     cap.release()
+    outfile.release()
 
 def image_inf(interpreter, anchors, img_fn, classes, threshold):
     img = cv2.imread(img_fn)
@@ -229,4 +239,4 @@ if __name__ == "__main__":
     elif args.image:
         image_inf(interpreter, anchors, args.image, classes, threshold=args.threshold)
     elif args.video:
-        video_inf(interpreter, anchors, classes, args.video, threshold=args.threshold)
+        video_inf(interpreter, anchors, classes, args.video, args.output, threshold=args.threshold)
