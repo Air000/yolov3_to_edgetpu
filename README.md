@@ -62,7 +62,7 @@ If everything is correct you should get a log with every op mapped to Edge TPU:
     QUANTIZE                       4          Mapped to Edge TPU
     CONV_2D                        13         Mapped to Edge TPU
 
-You can use visualize tool in tensorflow lite to inspect .tflite structure ([images/visualized_model.html](images/visualized_model.html))
+You can use visualize tool in tensorflow lite to inspect .tflite structure ([images/visualized_model.html](https://raw.githack.com/Air000/yolov3_to_edgetpu/master/images/visualized_model.html))
 ![image](images/visualized.png)
  
 This model can be run on Edge TPU with `inference.py` script. Here use a bash script for inference, modify the script for your own test.
